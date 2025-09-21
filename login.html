@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Airline Booking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="login.html">Login</a>
+    <a href="register.html">Register</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="bookings.html">My Bookings</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+  <div class="container">
+    <h1>Welcome to Smart Airline Booking ✈</h1>
+    <p>Search and book your flights easily.</p>
+
+    <form action="dashboard.html" class="search-form">
+      <input type="text" placeholder="Source" required>
+      <input type="text" placeholder="Destination" required>
+      <input type="date">
+      <select>
+        <option value="">Sort By</option>
+        <option value="price">Lowest Price</option>
+        <option value="time">Earliest Flight</option>
+        <option value="seats">Most Seats</option>
+      </select>
+      <button type="submit">Search Flights</button>
+    </form>
+  </div>
+</body>
+</html>
