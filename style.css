@@ -1,0 +1,201 @@
+/* -------- Global -------- */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  color: #023e8a;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #444;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 950px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+/* -------- Navbar -------- */
+nav {
+  background: linear-gradient(90deg, #0077b6, #00b4d8);
+  padding: 14px 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+nav a {
+  color: #fff;
+  margin: 0 14px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.25s, transform 0.2s;
+}
+nav a:hover {
+  color: #ffd60a;
+  transform: translateY(-2px);
+}
+
+/* -------- Forms -------- */
+form {
+  margin-top: 15px;
+}
+input, select {
+  padding: 11px 12px;
+  margin: 6px 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.25s;
+}
+input:focus, select:focus {
+  border-color: #0077b6;
+  outline: none;
+}
+button {
+  padding: 11px 18px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, #0077b6, #0096c7);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+  background: linear-gradient(90deg, #023e8a, #0077b6);
+  transform: translateY(-2px);
+}
+
+/* -------- Tables -------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+table th {
+  background: #0077b6;
+  color: white;
+  padding: 14px;
+  text-align: center;
+  font-size: 15px;
+}
+table td {
+  padding: 12px;
+  border: 1px solid #eee;
+  text-align: center;
+  font-size: 14px;
+}
+table tr:nth-child(even) {
+  background: #f8f9fa;
+}
+table tr:hover {
+  background: #e6f7ff;
+}
+
+/* -------- Login/Register Card -------- */
+.auth-box {
+  max-width: 420px;
+  margin: 70px auto;
+  background: #fff;
+  padding: 30px 35px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+.auth-box h2 {
+  margin-bottom: 20px;
+  color: #0077b6;
+}
+
+/* -------- Dashboard Search -------- */
+.search-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.search-form input, .search-form select {
+  width: 100%;
+}
+
+/* -------- Action Buttons -------- */
+.action-btns {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.action-btns button {
+  flex: 1;
+  padding: 8px;
+  font-size: 13px;
+}
+
+/* -------- Admin Panel -------- */
+.admin-section {
+  margin-top: 35px;
+}
+.admin-section h3 {
+  margin-top: 20px;
+  color: #0077b6;
+  border-left: 4px solid #00b4d8;
+  padding-left: 8px;
+}
+
+/* -------- Animations -------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 768px) {
+  .container {
+    margin: 15px;
+    padding: 18px;
+  }
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+  nav a {
+    margin: 8px 0;
+  }
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+}
+/* Extra styles for reset button */
+.reset-btn {
+  background: #999;
+}
+.reset-btn:hover {
+  background: #666;
+}
+
+/* Highlight active search */
+.search-form input:focus, 
+.search-form select:focus {
+  border-color: #00b4d8;
+  box-shadow: 0 0 4px rgba(0,180,216,0.6);
+}

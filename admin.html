@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Smart Airline Booking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="login.html">Logout</a>
+  </nav>
+
+  <div class="container">
+    <h2>Admin Panel</h2>
+
+    <div class="admin-section">
+      <h3>Add / Update Flight</h3>
+      <form>
+        <input type="text" placeholder="Flight No" required>
+        <input type="text" placeholder="Source" required>
+        <input type="text" placeholder="Destination" required>
+        <input type="text" placeholder="Time" required>
+        <input type="date" required>
+        <input type="number" placeholder="Seats" required>
+        <input type="number" placeholder="Price" required>
+        <button type="submit">Save</button>
+      </form>
+    </div>
+
+    <div class="admin-section">
+      <h3>All Flights</h3>
+      <table>
+        <tr><th>No</th><th>From</th><th>To</th><th>Time</th><th>Date</th><th>Seats</th><th>Price</th></tr>
+        <tr><td>AI101</td><td>Delhi</td><td>Mumbai</td><td>10:00</td><td>20-09-2025</td><td>5</td><td>₹4500</td></tr>
+      </table>
+    </div>
+
+    <div class="admin-section">
+      <h3>All Bookings</h3>
+      <table>
+        <tr><th>ID</th><th>User</th><th>Flight</th><th>Date</th></tr>
+        <tr><td>1</td><td>john</td><td>AI101</td><td>19-09-2025</td></tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

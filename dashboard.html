@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Smart Airline Booking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="bookings.html">My Bookings</a>
+    <a href="admin.html">Admin</a>
+    <a href="login.html">Logout</a>
+  </nav>
+
+  <div class="container">
+    <h2>Available Flights</h2>
+
+    <!-- Search & Filter Form -->
+    <form id="filterForm" class="search-form">
+      <input type="text" id="sourceInput" placeholder="Source">
+      <input type="text" id="destInput" placeholder="Destination">
+      <input type="date" id="dateInput">
+      <select id="sortSelect">
+        <option value="">Sort By</option>
+        <option value="price">Lowest Price</option>
+        <option value="time">Earliest Time</option>
+        <option value="seats">Most Seats</option>
+      </select>
+      <button type="button" onclick="filterFlights()">Search</button>
+      <button type="button" class="reset-btn" onclick="resetFilter()">Reset</button>
+    </form>
+
+    <!-- Flights Table -->
+    <table id="flightsTable">
+      <thead>
+        <tr>
+          <th>Flight No.</th>
+          <th>Source</th>
+          <th>Destination</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Seats Available</th>
+          <th>Price (₹)</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>AI101</td><td>Delhi</td><td>Mumbai</td><td>2025-09-25</td><td>08:30</td><td>120</td><td>4500</td><td><button>Book</button></td></tr>
+        <tr><td>AI202</td><td>Mumbai</td><td>Bengalore</td><td>2025-09-25</td><td>11:00</td><td>90</td><td>4000</td><td><button>Book</button></td></tr>
+        <tr><td>AI303</td><td>Delhi</td><td>Kolkata</td><td>2025-09-25</td><td>14:15</td><td>85</td><td>4200</td><td><button>Book</button></td></tr>
+        <tr><td>AI404</td><td>Kolkata</td><td>Chennai</td><td>2025-09-25</td><td>09:45</td><td>100</td><td>3800</td><td><button>Book</button></td></tr>
+        <tr><td>AI505</td><td>Bengalore</td><td>Delhi</td><td>2025-09-25</td><td>06:20</td><td>75</td><td>4600</td><td><button>Book</button></td></tr>
+        <tr><td>AI606</td><td>Delhi</td><td>Goa</td><td>2025-09-25</td><td>22:00</td><td>180</td><td>15500</td><td><button>Book</button></td></tr>
+        <tr><td>AI707</td><td>Mumbai</td><td>Goa</td><td>2025-09-25</td><td>23:55</td><td>200</td><td>18500</td><td><button>Book</button></td></tr>
+        <tr><td>AI808</td><td>Chennai</td><td>Mumbai</td><td>2025-09-25</td><td>12:10</td><td>95</td><td>6500</td><td><button>Book</button></td></tr>
+        <tr><td>AI909</td><td>Kolkata</td><td>Chennai</td><td>2025-09-25</td><td>16:30</td><td>110</td><td>12500</td><td><button>Book</button></td></tr>
+        <tr><td>AI010</td><td>Delhi</td><td>Bihar</td><td>2025-09-25</td><td>02:00</td><td>240</td><td>52000</td><td><button>Book</button></td></tr>
+        <tr><td>AI111</td><td>Mumbai</td><td>Darbhanga</td><td>2025-09-25</td><td>03:15</td><td>260</td><td>62000</td><td><button>Book</button></td></tr>
+        <tr><td>AI212</td><td>Bengalore</td><td>Uttrakhand</td><td>2025-09-26</td><td>04:00</td><td>200</td><td>65000</td><td><button>Book</button></td></tr>
+        <tr><td>AI313</td><td>Darbhanga</td><td>Mumbai</td><td>2025-09-26</td><td>05:25</td><td>190</td><td>48000</td><td><button>Book</button></td></tr>
+        <tr><td>AI414</td><td>Mumbai</td><td>Goa</td><td>2025-09-26</td><td>19:00</td><td>170</td><td>14500</td><td><button>Book</button></td></tr>
+        <tr><td>AI515</td><td>Mumbai</td><td>Rajasthan</td><td>2025-09-23</td><td>21:45</td><td>24</td><td>5000</td><td><button>Book</button></td></tr>
+        <tr><td>AI500</td><td>Mumbai</td><td>Rajasthan</td><td>2025-09-23</td><td>09:58</td><td>120</td><td>5000</td><td><button>Book</button></td></tr>
+        <tr><td>AI801</td><td>Mumbai</td><td>Rajasthan</td><td>2025-09-24</td><td>10:25</td><td>29</td><td>4500</td><td><button>Book</button></td></tr>
+        <tr><td>AI802</td><td>Mumbai</td><td>Rajasthan</td><td>2025-09-24</td><td>19:27</td><td>125</td><td>4500</td><td><button>Book</button></td></tr>
+        <tr><td>AI803</td><td>Mumbai</td><td>Rajasthan</td><td>2025-09-25</td><td>15:45</td><td>87</td><td>3000</td><td><button>Book</button></td></tr>
+        <tr><td>AI805</td><td>Mumbai</td><td>Rajasthan</td><td>2025-09-25</td><td>18:17</td><td>104</td><td>3000</td><td><button>Book</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- JavaScript for Filtering -->
+  <script>
+    function filterFlights() {
+      let source = document.getElementById("sourceInput").value.toLowerCase();
+      let dest = document.getElementById("destInput").value.toLowerCase();
+      let date = document.getElementById("dateInput").value;
+      let sortBy = document.getElementById("sortSelect").value;
+
+      let table = document.getElementById("flightsTable").getElementsByTagName("tbody")[0];
+      let rows = Array.from(table.getElementsByTagName("tr"));
+
+      rows.forEach(row => {
+        let src = row.cells[1].innerText.toLowerCase();
+        let dst = row.cells[2].innerText.toLowerCase();
+        let dt = row.cells[3].innerText;
+
+        if ((source && !src.includes(source)) ||
+            (dest && !dst.includes(dest)) ||
+            (date && dt !== date)) {
+          row.style.display = "none";
+        } else {
+          row.style.display = "";
+        }
+      });
+
+      if (sortBy) {
+        rows.sort((a, b) => {
+          if (sortBy === "price") {
+            return parseInt(a.cells[6].innerText) - parseInt(b.cells[6].innerText);
+          } else if (sortBy === "time") {
+            return a.cells[4].innerText.localeCompare(b.cells[4].innerText);
+          } else if (sortBy === "seats") {
+            return parseInt(b.cells[5].innerText) - parseInt(a.cells[5].innerText);
+          }
+        });
+        rows.forEach(r => table.appendChild(r));
+      }
+    }
+
+    function resetFilter() {
+      document.getElementById("filterForm").reset();
+      let rows = document.querySelectorAll("#flightsTable tbody tr");
+      rows.forEach(r => r.style.display = "");
+    }
+  </script>
+</body>
+</html>
