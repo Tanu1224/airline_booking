@@ -4,40 +4,41 @@
   <meta charset="UTF-8">
   <title>Dashboard - Smart Airline Booking</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
   <nav>
     <a href="{{ url_for('index') }}">Home</a>
     <a href="{{ url_for('dashboard') }}">Dashboard</a>
-    <a href="#">My Bookings</a>
-    <a href="#">Admin</a>
+    <a href="{{ url_for('my_bookings') }}">My Bookings</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
     <a href="#">Logout</a>
   </nav>
 
-  <div class="container">
-    <h2>Available Flights</h2>
+    <div class="container">
+        <h2>Available Flights</h2>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-        <form id="filterForm" class="search-form">
-      <input type="text" id="sourceInput" placeholder="Source">
-      <input type="text" id="destInput" placeholder="Destination">
-      <input type="date" id="dateInput">
-      <select id="sortSelect">
-        <option value="">Sort By</option>
-        <option value="price">Lowest Price</option>
-        <option value="time">Earliest Time</option>
-        <option value="seats">Most Seats</option>
-      </select>
-      <button type="button" onclick="filterFlights()">Search</button>
-      <button type="button" class="reset-btn" onclick="resetFilter()">Reset</button>
-    </form>
+        <form action="{{ url_for('dashboard') }}" method="GET" class="search-form">
+            <input type="text" name="source" placeholder="Source" value="{{ request.args.get('source', '') }}">
+            <input type="text" name="destination" placeholder="Destination" value="{{ request.args.get('destination', '') }}">
+            <input type="date" name="date" value="{{ request.args.get('date', '') }}">
+            <select name="sort_by">
+                <option value="">Sort By</option>
+                <option value="price" {% if request.args.get('sort_by') == 'price' %}selected{% endif %}>Lowest Price</option>
+                <option value="time" {% if request.args.get('sort_by') == 'time' %}selected{% endif %}>Earliest Time</option>
+                <option value="seats" {% if request.args.get('sort_by') == 'seats' %}selected{% endif %}>Most Seats</option>
+            </select>
+            <button type="submit">Search</button>
+            <a href="{{ url_for('dashboard') }}" class="reset-btn">Reset</a>
+        </form>
 
         <table id="flightsTable">
       <thead>
@@ -63,7 +64,7 @@
                 <td>{{ flight.available_seats }}</td>
                 <td>{{ flight.price }}</td>
                 <td>
-                    <a href="#">
+                    <a href="{{ url_for('book_flight', flight_id=flight.flight_id) }}">
                         <button>Book</button>
                     </a>
                 </td>
@@ -77,63 +78,28 @@
     </table>
   </div>
 
-    <script>
-    function filterFlights() {
-      let source = document.getElementById("sourceInput").value.toLowerCase();
-      let dest = document.getElementById("destInput").value.toLowerCase();
-      let date = document.getElementById("dateInput").value;
-      let sortBy = document.getElementById("sortSelect").value;
+<script>
 
-      let table = document.getElementById("flightsTable").getElementsByTagName("tbody")[0];
-      let rows = Array.from(table.getElementsByTagName("tr"));
-
-      // 1. Filtering
-      let filteredRows = rows.filter(row => {
-        let src = row.cells[1].innerText.toLowerCase();
-        let dst = row.cells[2].innerText.toLowerCase();
-        let dt = row.cells[3].innerText; // YYYY-MM-DD format
-
-        const sourceMatch = !source || src.includes(source);
-        const destMatch = !dest || dst.includes(dest);
-        const dateMatch = !date || dt === date;
-        
-        // Update display style based on filter match
-        if (sourceMatch && destMatch && dateMatch) {
-            row.style.display = "";
-            return true;
-        } else {
-            row.style.display = "none";
-            return false;
-        }
-      });
-
-      // 2. Sorting (only sort the visible/filtered rows)
-      if (sortBy) {
-        filteredRows.sort((a, b) => {
-          if (sortBy === "price") {
-            // Price is in cell index 6
-            return parseInt(a.cells[6].innerText) - parseInt(b.cells[6].innerText);
-          } else if (sortBy === "time") {
-            // Time is in cell index 4
-            return a.cells[4].innerText.localeCompare(b.cells[4].innerText);
-          } else if (sortBy === "seats") {
-            // Seats is in cell index 5 (sort descending)
-            return parseInt(b.cells[5].innerText) - parseInt(a.cells[5].innerText);
-          }
-        });
-
-        // Re-append the sorted rows to the table body to update the DOM
-        filteredRows.forEach(r => table.appendChild(r));
-      }
-    }
-
-    function resetFilter() {
-      document.getElementById("filterForm").reset();
-      let rows = document.querySelectorAll("#flightsTable tbody tr");
-      // Show all rows
-      rows.forEach(r => r.style.display = "");
-        // Re-sort the original data if needed, or simply rely on the default order
-    }
-  </script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                Swal.fire({
+                    title: '{{ "Booking Successful!" if category == "success" else "Booking Failed!" }}',
+                    text: '{{ message }}',
+                    icon: '{{ category }}', // 'success' or 'error'
+                    confirmButtonText: 'OK',
+                    showCancelButton: true,
+                    cancelButtonText: 'View My Bookings'
+                }).then((result) => {
+                    if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
+                        // If "View My Bookings" is clicked, redirect
+                        window.location.href = "{{ url_for('my_bookings') }}";
+                    }
+                });
+                {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+</script>
 </body>
 </html>

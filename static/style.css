@@ -1,4 +1,4 @@
-/* -------- Global -------- */
+
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   background: #f4f6f9;
@@ -130,7 +130,7 @@ table tr:hover {
 
 /* -------- Dashboard Search -------- */
 .search-form {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 12px;
   margin-bottom: 20px;
@@ -187,6 +187,8 @@ table tr:hover {
 }
 /* Extra styles for reset button */
 .reset-btn {
+  text-decoration: none;
+  color: #0077b6;
   background: #999;
 }
 .reset-btn:hover {
@@ -198,4 +200,126 @@ table tr:hover {
 .search-form select:focus {
   border-color: #00b4d8;
   box-shadow: 0 0 4px rgba(0,180,216,0.6);
+}
+
+.delete-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #dc3545; /* A standard danger red */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* --- Styles for My Bookings Page --- */
+.bookings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.booking-card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.booking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.booking-card .card-header {
+    background: #0077b6;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-card .card-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.booking-card .card-body {
+    padding: 20px;
+}
+
+.flight-path {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.flight-path .path-item p {
+    margin: 0 0 5px;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.flight-path .path-item strong {
+    font-size: 1.2rem;
+    color: #023e8a;
+}
+
+.flight-path .path-icon {
+    font-size: 1.8rem;
+    color: #00b4d8;
+}
+
+.booking-card hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+.flight-details {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.flight-details p {
+    margin: 0 0 5px;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.flight-details strong {
+    color: #343a40;
+}
+
+.booking-card .card-footer {
+    background: #f8f9fa;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #eee;
+}
+
+.card-footer .action-btn {
+    flex: 1;
+    padding: 10px;
+    margin: 0;
+}
+
+.card-footer .cancel-btn {
+    background: #6c757d;
+}
+.card-footer .cancel-btn:hover {
+    background: #5a6268;
 }
