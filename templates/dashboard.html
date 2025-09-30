@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Smart Airline Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="#">My Bookings</a>
+    <a href="#">Admin</a>
+    <a href="#">Logout</a>
+  </nav>
+
+  <div class="container">
+    <h2>Available Flights</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+        <form id="filterForm" class="search-form">
+      <input type="text" id="sourceInput" placeholder="Source">
+      <input type="text" id="destInput" placeholder="Destination">
+      <input type="date" id="dateInput">
+      <select id="sortSelect">
+        <option value="">Sort By</option>
+        <option value="price">Lowest Price</option>
+        <option value="time">Earliest Time</option>
+        <option value="seats">Most Seats</option>
+      </select>
+      <button type="button" onclick="filterFlights()">Search</button>
+      <button type="button" class="reset-btn" onclick="resetFilter()">Reset</button>
+    </form>
+
+        <table id="flightsTable">
+      <thead>
+        <tr>
+          <th>Flight No.</th>
+          <th>Source</th>
+          <th>Destination</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Seats Available</th>
+          <th>Price (₹)</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for flight in flights %}
+            <tr>
+                <td>{{ flight.flight_id }}</td>
+                <td>{{ flight.source }}</td>
+                <td>{{ flight.destination }}</td>
+                <td>{{ flight.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ flight.date.strftime('%H:%M') }}</td>
+                <td>{{ flight.available_seats }}</td>
+                <td>{{ flight.price }}</td>
+                <td>
+                    <a href="#">
+                        <button>Book</button>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No flights available at this time.</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+    <script>
+    function filterFlights() {
+      let source = document.getElementById("sourceInput").value.toLowerCase();
+      let dest = document.getElementById("destInput").value.toLowerCase();
+      let date = document.getElementById("dateInput").value;
+      let sortBy = document.getElementById("sortSelect").value;
+
+      let table = document.getElementById("flightsTable").getElementsByTagName("tbody")[0];
+      let rows = Array.from(table.getElementsByTagName("tr"));
+
+      // 1. Filtering
+      let filteredRows = rows.filter(row => {
+        let src = row.cells[1].innerText.toLowerCase();
+        let dst = row.cells[2].innerText.toLowerCase();
+        let dt = row.cells[3].innerText; // YYYY-MM-DD format
+
+        const sourceMatch = !source || src.includes(source);
+        const destMatch = !dest || dst.includes(dest);
+        const dateMatch = !date || dt === date;
+        
+        // Update display style based on filter match
+        if (sourceMatch && destMatch && dateMatch) {
+            row.style.display = "";
+            return true;
+        } else {
+            row.style.display = "none";
+            return false;
+        }
+      });
+
+      // 2. Sorting (only sort the visible/filtered rows)
+      if (sortBy) {
+        filteredRows.sort((a, b) => {
+          if (sortBy === "price") {
+            // Price is in cell index 6
+            return parseInt(a.cells[6].innerText) - parseInt(b.cells[6].innerText);
+          } else if (sortBy === "time") {
+            // Time is in cell index 4
+            return a.cells[4].innerText.localeCompare(b.cells[4].innerText);
+          } else if (sortBy === "seats") {
+            // Seats is in cell index 5 (sort descending)
+            return parseInt(b.cells[5].innerText) - parseInt(a.cells[5].innerText);
+          }
+        });
+
+        // Re-append the sorted rows to the table body to update the DOM
+        filteredRows.forEach(r => table.appendChild(r));
+      }
+    }
+
+    function resetFilter() {
+      document.getElementById("filterForm").reset();
+      let rows = document.querySelectorAll("#flightsTable tbody tr");
+      // Show all rows
+      rows.forEach(r => r.style.display = "");
+        // Re-sort the original data if needed, or simply rely on the default order
+    }
+  </script>
+</body>
+</html>
