@@ -27,12 +27,13 @@ class FlightManager:
     def _load_initial_flights(self):
         # Placeholder for demonstration. In production, load from DB.
         return [
-            Flight(1, "New York", "London", datetime(2023, 12, 20), 500, 150),
-            Flight(2, "London", "Paris", datetime(2023, 12, 22), 120, 80),
-            Flight(3, "New York", "Los Angeles", datetime(2023, 12, 25), 300, 200),
-            Flight(4, "Paris", "Rome", datetime(2023, 12, 28), 90, 50),
-            Flight(5, "New York", "London", datetime(2024, 1, 5), 550, 100),
-
+            Flight(1, "Mumbai", "Delhi", datetime(2025, 10, 5, 9, 0), 5200, 110),
+            Flight(2, "Delhi", "Bangalore", datetime(2025, 10, 6, 15, 30), 6100, 78),
+            Flight(3, "Bangalore", "Chennai", datetime(2025, 10, 7, 7, 15), 3450, 120),
+            Flight(4, "Kolkata", "Mumbai", datetime(2025, 10, 8, 20, 0), 6800, 55),
+            Flight(5, "Hyderabad", "Goa", datetime(2025, 10, 10, 12, 45), 4300, 90),
+            Flight(6, "Delhi", "Kolkata", datetime(2025, 10, 11, 18, 5), 5950, 64),
+            
         ]
 
     def get_all_flights(self):
@@ -81,7 +82,7 @@ class FlightManager:
     def delete_flight(self, flight_id):
         flight_to_delete = None
         for flight in self.flights:
-            if flight.flight_id == flight_id:
+            if str(flight.flight_id) == str(flight_id):
                 flight_to_delete = flight
                 break
         
